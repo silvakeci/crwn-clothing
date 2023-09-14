@@ -1,14 +1,14 @@
 import Home from "./routes/home/homeComponent";
 import { Routes, Route } from "react-router-dom";
 import Navigation from "./routes/navigation/navigation";
-import SignIn from "./routes/sign-in/signIn";
+import Authentication from "./routes/authentication/authentication";
 
 const App = () => {
   return (
     <Routes>
       <Route path="/" element={<Navigation />}>
         <Route index element={<Home />} />
-        <Route path="signIn" element={<SignIn />} />
+        <Route path="auth" element={<Authentication />} />
       </Route>
     </Routes>
   );
