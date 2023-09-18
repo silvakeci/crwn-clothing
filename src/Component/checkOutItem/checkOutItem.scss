@@ -1,4 +1,9 @@
-.checkOut-item-container {
+.item-container {
   display: flex;
+  flex-direction: row;
+  width: 100% ;
+  height: 80px;
+  margin-bottom: 15px;
   justify-content: space-between;
+
 }

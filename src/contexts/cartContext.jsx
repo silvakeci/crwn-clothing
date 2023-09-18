@@ -14,6 +14,14 @@ const addCartItem = (cartItems, productToAdd) => {
   return [...cartItems, { ...productToAdd, quantity: 1 }];
 };
 
+const IncreaseQuantity=(cartItems, product)=>{
+  return cartItems.map((cartItem) =>
+      cartItem.id === product.id
+          ? { ...cartItem, quantity: cartItem.quantity + 1 }
+          : cartItem
+  );
+}
+
 export const CartContext = createContext({
   isCartOpen: false,
   setIsCartOpen: () => {},
@@ -23,6 +31,10 @@ export const CartContext = createContext({
   showCheckOutPage: false,
   setShowCheckOutpage: () => {},
   totalPrice: 0,
+  increase:0,
+  setIncrease:() => {},
+  handleIncreaseQuantity:()=>{}
+
 });
 
 export const CartProvider = ({ children }) => {
@@ -31,6 +43,7 @@ export const CartProvider = ({ children }) => {
   const [cartCount, setCartCount] = useState(0);
   const [showCheckOutPage, setShowCheckOutpage] = useState(false);
   const [totalPrice, setTotalPrice] = useState(0);
+  const [increase, setIncrease] = useState(0)
 
   useEffect(() => {
     const newCartCount = cartItems.reduce(
@@ -48,6 +61,17 @@ export const CartProvider = ({ children }) => {
     setTotalPrice(newTotalPrice);
   }, [cartItems]);
 
+
+
+  const handleIncreaseQuantity=( product)=>{
+    setIncrease(IncreaseQuantity(cartItems, product))
+  }
+
+  const handleDecreaseQuantity=(quantity)=>{
+    setIncrease(quantity-1)
+  }
+
+
   const addItemToCart = (productToAdd) => {
     setCartItem(addCartItem(cartItems, productToAdd));
   };
@@ -61,6 +85,10 @@ export const CartProvider = ({ children }) => {
     showCheckOutPage,
     setShowCheckOutpage,
     totalPrice,
+    increase,
+    setIncrease,
+    handleIncreaseQuantity,
+    handleDecreaseQuantity
   };
 
   return <CartContext.Provider value={value}>{children}</CartContext.Provider>;
