@@ -17,8 +17,8 @@ const addCartItem = (cartItems, productToAdd) => {
 const IncreaseQuantity=(cartItems, product)=>{
   return cartItems.map((cartItem) =>
       cartItem.id === product.id
-          ? { ...cartItem, quantity: cartItem.quantity + 1 }
-          : cartItem
+          && { ...cartItem, quantity: cartItem.quantity + 1 }
+
   );
 }
 
@@ -63,13 +63,10 @@ export const CartProvider = ({ children }) => {
 
 
 
-  const handleIncreaseQuantity=( product)=>{
+  const handleIncreaseQuantity=(product)=>{
     setIncrease(IncreaseQuantity(cartItems, product))
   }
 
-  const handleDecreaseQuantity=(quantity)=>{
-    setIncrease(quantity-1)
-  }
 
 
   const addItemToCart = (productToAdd) => {
@@ -88,7 +85,7 @@ export const CartProvider = ({ children }) => {
     increase,
     setIncrease,
     handleIncreaseQuantity,
-    handleDecreaseQuantity
+
   };
 
   return <CartContext.Provider value={value}>{children}</CartContext.Provider>;

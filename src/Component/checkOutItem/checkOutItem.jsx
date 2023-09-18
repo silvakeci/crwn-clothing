@@ -8,11 +8,12 @@ import {CartContext} from "../../contexts/cartContext";
 const CheckOutItem = ({ item }) => {
 
   const { name, imageUrl, quantity, price, } = item;
-  const { handleIncreaseQuantity  }= useContext(CartContext)
+  const { handleIncreaseQuantity, increase  }= useContext(CartContext)
 
     const IncreaseQuantity = ()=>{
       handleIncreaseQuantity(item)
     }
+    console.log('quantity', quantity)
 
   return (
     <div className="item-container">
