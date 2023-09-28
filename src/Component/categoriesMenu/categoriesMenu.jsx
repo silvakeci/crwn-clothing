@@ -1,10 +1,10 @@
-import CategoryItem from "../categoryItem/categoryItem";
+import DirectoryItem from "../directoryItem/directoryItem";
 import "./categoriesMenu.scss";
 const CategoriesMenu = ({ categories }) => {
   return (
     <div className="categories-container ">
       {categories.map((category) => (
-        <CategoryItem key={category.id} category={category} />
+        <DirectoryItem key={category.id} category={category} />
       ))}
     </div>
   );
