@@ -1,25 +1,32 @@
-import './category.scss';
+
 import {useParams} from "react-router";
-import {useContext, useState, useEffect} from "react";
+import {useContext, useState, useEffect, Fragment} from "react";
 import {CategoriesContext} from "../../contexts/categoriesContext";
 import ProductCard from "../../Component/productCard/productCard";
+import { CategoryContainer, Title } from './categoryStyle';
+const Category = () => {
+    const {category } = useParams();
+    const { categoriesMap } = useContext(CategoriesContext);
+    const [products, setProducts] = useState(categoriesMap[category]);
 
-const Category = ()=>{
-  const {category} = useParams();
- const { categoriesMap} = useContext(CategoriesContext)
- const [products, setProducts] = useState(categoriesMap[category]);
+    useEffect(() => {
+        setProducts(categoriesMap[category]);
+    }, [category, categoriesMap]);
 
- useEffect(()=>{
-     setProducts(categoriesMap[category])
- },[category, categoriesMap])
 
+
+    const categoryTitle = category ? category.toUpperCase() : "";
     return (
-        <div className='category-container'>
-            {
-                products && products.map((product)=>( <ProductCard key={product.id} product={product}/>))
-            }
-        </div>
-    )
-}
+        <Fragment>
+            <Title>{categoryTitle}</Title>
+            <CategoryContainer>
+                {products &&
+                    products.map((product) => (
+                        <ProductCard key={product.id} product={product} />
+                    ))}
+            </CategoryContainer>
+        </Fragment>
+    );
+};
 
 export default Category;

@@ -1,25 +1,29 @@
-import {createContext, useState, useEffect} from 'react';
-import {createUserDocumentFromAuth, onAuthStateChangedListener, signOutUser} from "../utils/firebase/fireBase";
-//as the actual value you want ot access
+import { createContext, useState, useEffect } from 'react';
+
+import {
+    onAuthStateChangedListener,
+    createUserDocumentFromAuth,
+} from  "../utils/firebase/fireBase";
+
 export const UserContext = createContext({
-currentUser:null,
-setCurrentUser:()=> null,
-})
+    setCurrentUser: () => null,
+    currentUser: null,
+});
 
-export const UserProvider=({children})=>{
+export const UserProvider = ({ children }) => {
     const [currentUser, setCurrentUser] = useState(null);
-    const value = {currentUser, setCurrentUser};
+    const value = { currentUser, setCurrentUser };
 
+    useEffect(() => {
+        const unsubscribe = onAuthStateChangedListener((user) => {
+            if (user) {
+                createUserDocumentFromAuth(user);
+            }
+            setCurrentUser(user);
+        });
 
-    useEffect(()=>{
-       const unsubcribe= onAuthStateChangedListener((user)=>{
-           if(user){
-               createUserDocumentFromAuth(user)
-           }
-           setCurrentUser(user)
-       })
-        return unsubcribe;
-    },[])
+        return unsubscribe;
+    }, []);
 
-    return <UserContext.Provider value={value}>{children}</UserContext.Provider>
-}
+    return <UserContext.Provider value={value}>{children}</UserContext.Provider>;
+};
